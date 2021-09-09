@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  beefgames:
+    image: "beefgames:latest"
+    container_name: "Beefgames"
+    restart: 'unless-stopped'
+    ports:
+      - '25565:25565/tcp'
+    volumes:
+      - '/home/jonas/Dokumente/Beefgames/world:/opt/server/world'
+      - '/home/jonas/Dokumente/Beefgames/world_nether:/opt/server/world_nether'
+      - '/home/jonas/Dokumente/Beefgames/world_the_end:/opt/server/world_the_end'
+    command: 'java -server -Xms2G -Xmx2G -jar paper.jar --nogui'
+  beefgames_mariadb:
+    image: 'mariadb:latest'
+    container_name: 'beefgames_mariadb'
+    restart: 'unless-stopped'
+    ports:
+      - '3306:3306/tcp'
+    environment:
+      MYSQL_USER: 'gemuese_hasser'
+      MYSQL_PASSWORD: 'beefgames'
+      MYSQL_DATABASE: 'beefgames'
+      MYSQL_ROOT_PASSWORD: 'beefgames'
+    volumes:
+      - '/home/jonas/Dokumente/Beefgames/database:/var/lib/mysql'
